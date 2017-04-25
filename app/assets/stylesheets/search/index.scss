@@ -1,0 +1,14 @@
+.search {
+  margin-top: 20px;
+}
+
+.games {
+  margin-top: 20px;
+  .game-card {
+    border: solid 1px $gray;
+    .game-platforms {
+      font-size: 8px;
+      color: $gray;
+    }
+  }
+}

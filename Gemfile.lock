@@ -40,7 +40,12 @@ GEM
       tzinfo (~> 1.1)
     addressable (2.3.8)
     arel (7.1.4)
+    autoprefixer-rails (6.7.7)
+      execjs
     bcrypt (3.1.11)
+    bootstrap (4.0.0.alpha6)
+      autoprefixer-rails (>= 6.0.3)
+      sass (>= 3.4.19)
     builder (3.2.3)
     byebug (9.0.6)
     coffee-rails (4.2.1)
@@ -66,11 +71,6 @@ GEM
       railties (>= 3.2, < 5.1)
     erubis (2.7.0)
     execjs (2.7.0)
-    factory_girl (4.4.0)
-      activesupport (>= 3.0.0)
-    factory_girl_rails (4.4.1)
-      factory_girl (~> 4.4.0)
-      railties (>= 3.0.0)
     ffi (1.9.17)
     globalid (0.3.7)
       activesupport (>= 4.1.0)
@@ -202,12 +202,12 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
+  bootstrap (~> 4.0.0.alpha5)
   byebug
   coffee-rails (~> 4.2)
   database_cleaner
   devise
   dotenv-rails
-  factory_girl_rails
   jbuilder (~> 2.5)
   jquery-rails
   listen (~> 3.0.5)
