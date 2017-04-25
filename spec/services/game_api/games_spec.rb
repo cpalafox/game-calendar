@@ -8,10 +8,10 @@ describe GameApi::Games do
     it 'calls api with right parameters' do
       allow(api).to receive(:get) { [] }
       allow(Game).to receive(:parse_many) { [] }
-      params = {:field_list=>"name,expected_release_day,expected_release_month,expected_release_year,expected_release_quarter,original_release_date,platforms,publishers,image,deck", :limit=>10, :offset=>0, :format=>"json", :resources=>"game", :api_key=>ENV['GB_KEY'], query: 'metroid'}
-      url = api.url + '/search'
+      params = {:fields=>"name,expected_release_day,expected_release_month,expected_release_year,expected_release_quarter,original_release_date,platforms,publishers,image,deck", :limit=>10, :offset=>0, search: 'metroid'}
+      url = api.url + '/games'
       expect(api).to receive(:get).with(url, params) { [] }
-      api.search(query: 'metroid')
+      api.search(search: 'metroid')
     end
 
     context "with results" do
@@ -20,7 +20,7 @@ describe GameApi::Games do
       end
 
       it 'returns a Game array' do
-        results = api.search(query: "metroid")
+        results = api.search(search: "metroid")
         expect(results).to be_kind_of Array
         expect(results.first).to be_kind_of Game
       end
@@ -29,13 +29,10 @@ describe GameApi::Games do
     context "without results" do
       it 'returns an empty array ' do
         allow(api).to receive(:get) { [] }
-        results = api.search(query: "metroid")
+        results = api.search(search: "metroid")
         expect(results).to be_kind_of Array
         expect(results).to be_empty
       end
     end
   end
-
-
-
 end
