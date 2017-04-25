@@ -10,7 +10,17 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170221050821) do
+ActiveRecord::Schema.define(version: 20170305215439) do
+
+  create_table "notifications", force: :cascade do |t|
+    t.integer  "user_id"
+    t.string   "raw_game"
+    t.date     "reminder_date"
+    t.date     "anticipation_reminder"
+    t.datetime "created_at",            null: false
+    t.datetime "updated_at",            null: false
+    t.index ["user_id"], name: "index_notifications_on_user_id"
+  end
 
   create_table "users", force: :cascade do |t|
     t.string   "username",               default: "", null: false

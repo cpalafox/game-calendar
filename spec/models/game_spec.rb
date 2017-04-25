@@ -24,5 +24,13 @@ describe Game do
     end
   end
 
+  describe '#platforms' do
+    let(:game) { Game.parse(raw_games.first) }
+
+    it 'returns a string of platforms' do
+      expect(game.platforms).to eq "Nintendo 3DS, Nintendo 3DS eShop"
+    end
+  end
+
 
 end
