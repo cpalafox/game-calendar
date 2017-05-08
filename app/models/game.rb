@@ -1,27 +1,19 @@
 class Game
-  attr_reader :name, :description, :expected_release_date, :expected_release_quarter, :platform_array, :publishers, :image
+  include ActiveModel::Model
+  attr_accessor :id, :name, :description, :platforms, :publishers, :image, :release_dates
 
-  def initialize(attrs)
-    @name = attrs[:name]
-    @description = attrs[:description]
-    @expected_release_date = attrs[:expected_release_date]
-    @expected_release_quarter = attrs[:expected_release_quarter]
-    @platform_array = attrs[:platforms]
-    @publishers = attrs[:publishers]
-    @image = attrs[:image]
-  end
+  PLATFORMS = { 130 => "Nintendo Switch", 49 => "Xbox One", 48 => "PlayStation 4", 47 => "Virtual Console (Nintendo)", 46 => "Playstation Vita", 45 => "PlayStation Network", 41 => "Wii U", 37 => "Nintendo 3DS" }
+  REGIONS = { 1 => "EU", 2 => "NA", 3 => "AU", 4 => "NZ", 5 => "JP", 6 => "CH", 7 => "AS", 8 => "Worldwide" }
 
   def self.parse(raw_game)
-    ex_release_year = raw_game['expected_release_year'].to_i
-    ex_release_month = raw_game['expected_release_month'].to_i
-    ex_release_day = raw_game['expected_release_day'].to_i
+    parsed_release_date_info = parse_release_dates_info(raw_game["release_dates"])
     Game.new(
+      id: raw_game["id"],
       name: raw_game["name"],
-      description: raw_game["deck"],
-      expected_release_quarter: raw_game["expected_release_quarter"],
-      image: raw_game["image"]["thumb_url"],
-      platforms: raw_game["platforms"].collect { |platform| platform["name"] },
-      expected_release_date: Date.valid_date?(ex_release_year, ex_release_month, ex_release_day) ? Date.new(ex_release_year, ex_release_month, ex_release_day) : nil
+      description: raw_game["summary"],
+      image: raw_game["cover"]["url"],
+      platforms: parsed_release_date_info["platforms"],
+      release_dates: parsed_release_date_info["release_dates"]
     )
   end
 
@@ -31,7 +23,17 @@ class Game
     end
   end
 
-  def platforms
-    platform_array.join(', ')
+  def self.parse_release_dates_info(release_dates)
+    hash = { "release_dates" => [], "platforms" => [] }
+    release_dates.each do |release_date|
+      hash["release_dates"] << {
+        REGIONS[release_date["region"]] => {
+          "date" => release_date["date"],
+          "date_human" => release_date["human"]
+        }
+      }
+      hash["platforms"] << PLATFORMS[release_date["platform"]]
+    end
+    hash
   end
 end
